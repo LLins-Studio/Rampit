@@ -1,6 +1,6 @@
-# EaseCrypt React Frontend
+# Rampit React Frontend
 
-React + Vite frontend for EaseCrypt.
+React + Vite frontend for Rampit.
 
 ## Getting Started
 

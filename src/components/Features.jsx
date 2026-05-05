@@ -3,7 +3,7 @@ import chat from '../assets/images/chat.png';
 
 const leftFeatures = [
   { icon: <Sparkles size={18} />, title: 'Smart Capture', desc: 'Turn quick thoughts into structured tasks instantly.' },
-  { icon: <Calendar size={18} />, title: 'AI Scheduling', desc: 'EaseCrypt suggests the best time to complete tasks.' },
+  { icon: <Calendar size={18} />, title: 'AI Scheduling', desc: 'Rampit suggests the best time to complete tasks.' },
   { icon: <BarChart2 size={18} />, title: 'Intelligent Insights', desc: 'See productivity trends and improve over time.' },
 ];
 
@@ -38,7 +38,7 @@ export default function Features() {
             {leftFeatures.map((f) => <FeatureItem key={f.title} {...f} />)}
           </div>
           <div className="feature-phone-center">
-            <img src={chat} alt="EaseCrypt AI Assistant Mockup" />
+            <img src={chat} alt="Rampit AI Assistant Mockup" />
           </div>
           <div className="feature-col">
             {rightFeatures.map((f) => <FeatureItem key={f.title} {...f} />)}

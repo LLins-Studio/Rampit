@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rampit Logo Preview</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f5f7fa; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; gap: 48px; }
+
+    h2 { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #888; margin-bottom: 20px; text-align: center; }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 48px 64px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+      min-width: 360px;
+    }
+
+    .card.dark {
+      background: #0A2540;
+    }
+
+    .row { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; justify-content: center; }
+
+    .label { font-size: 0.7rem; color: #aaa; text-align: center; margin-top: 8px; }
+    .label.light { color: #ffffff66; }
+  </style>
+</head>
+<body>
+
+  <!-- Light background -->
+  <div class="card">
+    <h2>Light Background</h2>
+    <div class="row">
+      <div>
+        <img src="/logo.svg" alt="Rampit Logo" height="60"/>
+        <p class="label">Full Wordmark</p>
+      </div>
+      <div>
+        <img src="/logo-icon.svg" alt="Rampit Icon" height="60"/>
+        <p class="label">App Icon</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dark background -->
+  <div class="card dark">
+    <h2 style="color:#ffffff66">Dark Background</h2>
+    <div class="row">
+      <div>
+        <img src="/logo.svg" alt="Rampit Logo" height="60" style="filter: invert(1) brightness(2)"/>
+        <p class="label light">Full Wordmark</p>
+      </div>
+      <div>
+        <img src="/logo-icon.svg" alt="Rampit Icon" height="60"/>
+        <p class="label light">App Icon</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sizes -->
+  <div class="card">
+    <h2>Scalability</h2>
+    <div class="row" style="align-items: flex-end;">
+      <div style="text-align:center"><img src="/logo-icon.svg" height="16"/><p class="label">16px</p></div>
+      <div style="text-align:center"><img src="/logo-icon.svg" height="32"/><p class="label">32px</p></div>
+      <div style="text-align:center"><img src="/logo-icon.svg" height="48"/><p class="label">48px</p></div>
+      <div style="text-align:center"><img src="/logo-icon.svg" height="80"/><p class="label">80px</p></div>
+    </div>
+  </div>
+
+</body>
+</html>

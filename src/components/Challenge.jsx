@@ -7,7 +7,7 @@ export default function Challenge() {
         </p>
         <h2>
           Managing P2P, high fees, and slow settlement times slows you down.{' '}
-          <span>EaseCrypt brings everything into one intelligent workflow.</span>
+          <span>Rampit brings everything into one intelligent workflow.</span>
         </h2>
       </div>
     </section>

@@ -29,7 +29,7 @@ export default function Header() {
     <header ref={headerRef} id="main-header">
       <a href="#" className="logo">
         <div className="logo-icon"><Zap size={16} /></div>
-        EaseCrypt
+        Rampit
       </a>
       <nav>
         <ul>

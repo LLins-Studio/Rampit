@@ -8,7 +8,7 @@ export default function Footer() {
           <div style={{ maxWidth: 300 }}>
             <a href="#" className="logo" style={{ marginBottom: 20 }}>
               <div className="logo-icon"><Zap size={16} /></div>
-              EaseCrypt
+              Rampit
             </a>
             <p style={{ fontSize: '0.9375rem' }}>Building the future of finance for Nigeria and beyond. Fast, secure, and intelligent.</p>
           </div>
@@ -32,7 +32,7 @@ export default function Footer() {
           </div>
         </div>
         <div style={{ marginTop: 60, paddingTop: 40, borderTop: '1px solid var(--border)', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.875rem' }}>
-          © 2026 EaseCrypt Technologies Ltd. All rights reserved.
+          © 2026 Rampit Technologies Ltd. All rights reserved.
         </div>
       </div>
     </footer>

@@ -25,7 +25,7 @@ export default function Hero() {
 
         <h1>Seamlessly Move From <br /> Naira to Crypto.</h1>
         <p className="max-w-medium">
-          EaseCrypt combines bank transfers, instant settlements, and secure wallet management into one intelligent system for the Nigerian market.
+          Rampit combines bank transfers, instant settlements, and secure wallet management into one intelligent system for the Nigerian market.
         </p>
 
         <div style={{ marginTop: 32, display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -38,7 +38,7 @@ export default function Hero() {
         </div>
 
         <div className="hero-mockups">
-          <img src={hero} alt="EaseCrypt Mobile Mockups" />
+          <img src={hero} alt="Rampit Mobile Mockups" />
         </div>
       </div>
     </section>
