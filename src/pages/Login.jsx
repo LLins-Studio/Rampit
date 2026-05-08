@@ -35,7 +35,7 @@ export default function Login() {
           Rampit
         </Link>
 
-        <h2 style={{ textAlign: 'center', fontSize: '1.75rem', marginBottom: 8 }}>Welcome back</h2>
+        <h2 style={{ textAlign: 'center', fontSize: '1.75rem', marginBottom: 8 }}>Welcome</h2>
         <p style={{ textAlign: 'center', marginBottom: 32, fontSize: '1rem' }}>Sign in to your Rampit account</p>
 
         {error && <div className="auth-error">{error}</div>}
