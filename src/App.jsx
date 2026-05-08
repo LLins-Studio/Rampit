@@ -7,7 +7,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 
-// Landing page sections
+import DevBanner from './components/DevBanner';
 import useScrollReveal from './hooks/useScrollReveal';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -21,6 +21,7 @@ function Landing() {
   useScrollReveal();
   return (
     <>
+      <DevBanner />
       <Header />
       <main>
         <Hero />
