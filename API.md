@@ -280,7 +280,6 @@ selfie: <file>
 ```json
 { "kycId": "", "status": "pending" }
 ```
-
 ---
 
 ### GET `/kyc/status`

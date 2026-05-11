@@ -718,3 +718,327 @@ nav a:hover {
     bottom: 16px;
   }
 }
+
+/* ─── Dashboard ──────────────────────────────────────────────────────────── */
+
+.dashboard {
+  min-height: 100vh;
+  background: var(--bg-alt);
+}
+
+.dashboard-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: white;
+  border-bottom: 1px solid var(--border);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0;
+  width: 100%;
+  max-width: 100%;
+  transform: none;
+  backdrop-filter: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.dashboard-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 48px 24px;
+  min-height: calc(100vh - 65px);
+}
+
+.dashboard-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: var(--shadow-md);
+}
+
+.dashboard-card-header {
+  margin-bottom: 32px;
+}
+
+.dashboard-card-header h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-align: left;
+  margin-bottom: 6px;
+}
+
+.dashboard-card-header p {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+}
+
+.dashboard-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dashboard-form select {
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+  font-family: var(--font-main);
+  color: var(--text);
+  background: white;
+  outline: none;
+  width: 100%;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
+
+.dashboard-form select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0, 135, 81, 0.1);
+}
+
+.form-hint {
+  font-size: 0.8125rem;
+  color: var(--primary);
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.dashboard-info-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.info-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-alt);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  color: var(--primary);
+}
+
+.info-card-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.info-card-value {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.payment-details {
+  background: var(--bg-alt);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.payment-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.payment-row:last-child {
+  border-bottom: none;
+}
+
+.payment-row span {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.payment-row strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.payment-row.highlight {
+  background: var(--primary-light);
+}
+
+.payment-row.highlight strong {
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+.payment-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  font-size: 0.8125rem;
+  color: #92400e;
+  font-weight: 500;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.payment-notice svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: #d97706;
+}
+
+.btn > svg {
+  margin-left: 6px;
+}
+
+@media (max-width: 480px) {
+  .dashboard-header {
+    padding: 12px 16px;
+  }
+
+  .dashboard-card {
+    padding: 24px 20px;
+  }
+
+  .dashboard-info-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── Chain Warning ──────────────────────────────────────────────────────── */
+
+.chain-warning {
+  margin-top: 8px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 0.8125rem;
+  color: #9a3412;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+/* ─── Step Indicator ─────────────────────────────────────────────────────── */
+
+.step-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.step-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: all 0.3s ease;
+}
+
+.step-dot.active {
+  background: var(--primary);
+  width: 24px;
+  border-radius: 4px;
+}
+
+.step-dot.done {
+  background: var(--accent);
+  width: 8px;
+  border-radius: 50%;
+}
+
+/* ─── Copy Button ────────────────────────────────────────────────────────── */
+
+.copy-btn {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
+  transition: all 0.2s ease;
+}
+
+.copy-btn:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* ─── Confirmation Screen ────────────────────────────────────────────────── */
+
+.confirmation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.confirmation-icon {
+  width: 80px;
+  height: 80px;
+  background: var(--primary-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.confirmation h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.confirmation p {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  max-width: 340px;
+  line-height: 1.6;
+}
+
+.confirmation-address {
+  background: var(--bg-alt);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+}
+
+.confirmation-address span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.confirmation-address strong {
+  font-size: 0.8125rem;
+  word-break: break-all;
+  color: var(--text);
+}

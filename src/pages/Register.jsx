@@ -24,7 +24,7 @@ export default function Register() {
     try {
       const { confirmPassword, ...payload } = form;
       await register(payload);
-      navigate('/verify-email');
+      navigate('/dashboard');
     } catch (err) {
       setError(err.message);
     } finally {
