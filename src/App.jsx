@@ -7,6 +7,9 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import Dashboard from './pages/Dashboard';
+import KYC from './pages/KYC';
+import Transactions from './pages/Transactions';
+import Account from './pages/Account';
 
 // Components
 import DevBanner from './components/DevBanner';
@@ -54,6 +57,9 @@ export default function App() {
               <Dashboard />
             </ProtectedRoute>
           } />
+          <Route path="/kyc" element={<ProtectedRoute><KYC /></ProtectedRoute>} />
+          <Route path="/transactions" element={<ProtectedRoute><Transactions /></ProtectedRoute>} />
+          <Route path="/account" element={<ProtectedRoute><Account /></ProtectedRoute>} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

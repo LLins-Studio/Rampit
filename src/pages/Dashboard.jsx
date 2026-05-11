@@ -1,24 +1,23 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Zap, ArrowRight, Wallet, TrendingUp, Clock, CheckCircle, Copy } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, Wallet, TrendingUp, Clock, CheckCircle, Copy, ShieldX } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { getRates, initiateTransaction } from '../api';
+import KycBanner from '../components/KycBanner';
+import DashboardLayout from '../components/DashboardLayout';
 
 export default function Dashboard() {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
+  const { user } = useAuth();
   const [step, setStep] = useState(1);
-  const [form, setForm] = useState({
-    amount: '',
-    token: 'USDT',
-    chain: 'CELO',
-    walletAddress: '',
-  });
+  const [form, setForm] = useState({ amount: '', token: 'USDT', chain: 'CELO', walletAddress: '' });
   const [rates, setRates] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [transaction, setTransaction] = useState(null);
   const [copied, setCopied] = useState('');
+
+  const kycStatus = user?.kycStatus || 'none';
+  const isKycBlocked = kycStatus === 'none';
 
   const supportedTokens = [
     { value: 'USDT', label: 'USDT (Tether)' },
@@ -26,9 +25,9 @@ export default function Dashboard() {
   ];
 
   const supportedChains = [
-    { value: 'CELO', label: 'Celo' },
-    { value: 'BASE', label: 'Base' },
-    { value: 'BNB', label: 'BNB Smart Chain' },
+    { value: 'CELO',   label: 'Celo' },
+    { value: 'BASE',   label: 'Base' },
+    { value: 'BNB',    label: 'BNB Smart Chain' },
     { value: 'SOLANA', label: 'Solana' },
   ];
 
@@ -48,14 +47,12 @@ export default function Dashboard() {
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  // Step 1 → Step 2: get quote
   const handleGetQuote = (e) => {
     e.preventDefault();
     setError('');
     setStep(2);
   };
 
-  // Step 2 → Step 3: proceed to payment, get virtual account
   const handleProceed = async () => {
     setLoading(true);
     setError('');
@@ -64,14 +61,8 @@ export default function Dashboard() {
       setTransaction(data);
       setStep(3);
     } catch (_) {
-      // Mock virtual account while backend is not ready
       setTransaction({
-        bankAccount: {
-          bankName: 'Wema Bank',
-          accountNumber: '0123456789',
-          accountName: 'Rampit Technologies',
-          amount: totalAmount,
-        },
+        bankAccount: { bankName: 'Wema Bank', accountNumber: '0123456789', accountName: 'Rampit Technologies', amount: totalAmount },
         reference: `RMP-${Date.now()}`,
         transactionId: `TXN-${Date.now()}`,
       });
@@ -81,21 +72,12 @@ export default function Dashboard() {
     }
   };
 
-  // Step 3 → Step 4: user confirms transfer
-  const handleTransferred = () => {
-    setStep(4);
-    // Backend will poll/webhook to verify payment and credit wallet
-  };
+  const handleTransferred = () => setStep(4);
 
   const copyToClipboard = (text, key) => {
     navigator.clipboard.writeText(text);
     setCopied(key);
     setTimeout(() => setCopied(''), 2000);
-  };
-
-  const handleLogout = async () => {
-    await logout();
-    navigate('/');
   };
 
   const reset = () => {
@@ -106,30 +88,18 @@ export default function Dashboard() {
   };
 
   const stepTitles = {
-    1: { title: 'Buy Crypto', sub: 'Enter your details to get a quote' },
-    2: { title: 'Your Quote', sub: 'Review the details before proceeding' },
-    3: { title: 'Make Payment', sub: 'Transfer to the virtual account below' },
+    1: { title: 'Buy Crypto',        sub: 'Enter your details to get a quote' },
+    2: { title: 'Your Quote',        sub: 'Review the details before proceeding' },
+    3: { title: 'Make Payment',      sub: 'Transfer to the virtual account below' },
     4: { title: 'Payment Submitted', sub: 'We are verifying your transfer' },
   };
 
   return (
-    <div className="dashboard">
-      <header className="dashboard-header">
-        <Link to="/" className="logo">
-          <div className="logo-icon"><Zap size={16} /></div>
-          Rampit
-        </Link>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-muted)' }}>{user?.fullName}</span>
-          <button onClick={handleLogout} className="btn btn-outline" style={{ padding: '8px 16px', fontSize: '0.875rem' }}>
-            Sign out
-          </button>
-        </div>
-      </header>
+    <DashboardLayout>
+      <div className="dl-page">
+        <KycBanner kycStatus={kycStatus} dailyUsed={0} />
 
-      <div className="dashboard-content">
         <div className="dashboard-card">
-
           {/* Step indicator */}
           <div className="step-indicator">
             {[1, 2, 3, 4].map((s) => (
@@ -151,18 +121,14 @@ export default function Dashboard() {
                 <div className="form-group">
                   <label>Select Token</label>
                   <select name="token" value={form.token} onChange={handleChange} required>
-                    {supportedTokens.map((t) => (
-                      <option key={t.value} value={t.value}>{t.label}</option>
-                    ))}
+                    {supportedTokens.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
                   </select>
                 </div>
 
                 <div className="form-group">
                   <label>Select Chain</label>
                   <select name="chain" value={form.chain} onChange={handleChange} required>
-                    {supportedChains.map((c) => (
-                      <option key={c.value} value={c.value}>{c.label}</option>
-                    ))}
+                    {supportedChains.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
                   </select>
                   <div className="chain-warning">
                     ⚠️ Only paste a wallet address compatible with <strong>{form.chain}</strong>. Pasting the wrong address will result in permanent loss of funds.
@@ -171,37 +137,24 @@ export default function Dashboard() {
 
                 <div className="form-group">
                   <label>Amount (NGN)</label>
-                  <input
-                    type="number"
-                    name="amount"
-                    placeholder="e.g. 10000"
-                    value={form.amount}
-                    onChange={handleChange}
-                    min="1000"
-                    required
-                  />
-                  {form.amount && (
-                    <div className="form-hint">
-                      You'll receive ≈ <strong>{tokenAmount} {form.token}</strong>
-                    </div>
-                  )}
+                  <input type="number" name="amount" placeholder="e.g. 10000" value={form.amount} onChange={handleChange} min="1000" max="200000" required />
+                  {form.amount && <div className="form-hint">You'll receive ≈ <strong>{tokenAmount} {form.token}</strong></div>}
+                  <div className="form-hint" style={{ color: 'var(--text-muted)' }}>Max single transaction: ₦200,000</div>
                 </div>
 
                 <div className="form-group">
                   <label>Your {form.chain} Wallet Address</label>
-                  <input
-                    type="text"
-                    name="walletAddress"
-                    placeholder={form.chain === 'SOLANA' ? 'Solana address...' : '0x...'}
-                    value={form.walletAddress}
-                    onChange={handleChange}
-                    required
-                  />
+                  <input type="text" name="walletAddress" placeholder={form.chain === 'SOLANA' ? 'Solana address...' : '0x...'} value={form.walletAddress} onChange={handleChange} required />
                 </div>
 
-                <button type="submit" className="btn btn-primary btn-full">
-                  Get Quote <ArrowRight size={16} />
+                <button type="submit" className="btn btn-primary btn-full" disabled={isKycBlocked}>
+                  {isKycBlocked ? <><ShieldX size={16} /> KYC Required</> : <>Get Quote <ArrowRight size={16} /></>}
                 </button>
+                {isKycBlocked && (
+                  <Link to="/kyc" className="btn btn-primary btn-full" style={{ marginTop: 8, textAlign: 'center' }}>
+                    Complete KYC to Start Buying
+                  </Link>
+                )}
               </form>
 
               <div className="dashboard-info-cards">
@@ -227,42 +180,18 @@ export default function Dashboard() {
           {step === 2 && (
             <>
               <div className="payment-details">
-                <div className="payment-row">
-                  <span>Token</span>
-                  <strong>{form.token} on {form.chain}</strong>
-                </div>
-                <div className="payment-row">
-                  <span>Wallet Address</span>
-                  <strong style={{ fontSize: '0.8rem', wordBreak: 'break-all' }}>{form.walletAddress}</strong>
-                </div>
-                <div className="payment-row">
-                  <span>Amount</span>
-                  <strong>₦{parseFloat(form.amount).toLocaleString()}</strong>
-                </div>
-                <div className="payment-row">
-                  <span>Fee (1%)</span>
-                  <strong>₦{fee.toLocaleString()}</strong>
-                </div>
-                <div className="payment-row highlight">
-                  <span>Total to Transfer</span>
-                  <strong>₦{totalAmount.toLocaleString()}</strong>
-                </div>
-                <div className="payment-row highlight">
-                  <span>You Receive</span>
-                  <strong>{tokenAmount} {form.token}</strong>
-                </div>
-                <div className="payment-row">
-                  <span>Rate</span>
-                  <strong>₦{currentRate.toLocaleString()} / {form.token}</strong>
-                </div>
+                <div className="payment-row"><span>Token</span><strong>{form.token} on {form.chain}</strong></div>
+                <div className="payment-row"><span>Wallet Address</span><strong style={{ fontSize: '0.8rem', wordBreak: 'break-all' }}>{form.walletAddress}</strong></div>
+                <div className="payment-row"><span>Amount</span><strong>₦{parseFloat(form.amount).toLocaleString()}</strong></div>
+                <div className="payment-row"><span>Fee (1%)</span><strong>₦{fee.toLocaleString()}</strong></div>
+                <div className="payment-row highlight"><span>Total to Transfer</span><strong>₦{totalAmount.toLocaleString()}</strong></div>
+                <div className="payment-row highlight"><span>You Receive</span><strong>{tokenAmount} {form.token}</strong></div>
+                <div className="payment-row"><span>Rate</span><strong>₦{currentRate.toLocaleString()} / {form.token}</strong></div>
               </div>
-
               <button onClick={handleProceed} className="btn btn-primary btn-full" disabled={loading}>
                 {loading ? 'Generating account...' : 'Proceed to Payment'} <ArrowRight size={16} />
               </button>
-              <button onClick={() => setStep(1)} className="btn btn-outline btn-full" style={{ marginTop: 12 }}>
-                ← Edit Details
-              </button>
+              <button onClick={() => setStep(1)} className="btn btn-outline btn-full" style={{ marginTop: 12 }}>← Edit Details</button>
             </>
           )}
 
@@ -270,10 +199,7 @@ export default function Dashboard() {
           {step === 3 && (
             <>
               <div className="payment-details">
-                <div className="payment-row">
-                  <span>Bank Name</span>
-                  <strong>{transaction?.bankAccount.bankName}</strong>
-                </div>
+                <div className="payment-row"><span>Bank Name</span><strong>{transaction?.bankAccount.bankName}</strong></div>
                 <div className="payment-row">
                   <span>Account Number</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -283,10 +209,7 @@ export default function Dashboard() {
                     </button>
                   </div>
                 </div>
-                <div className="payment-row">
-                  <span>Account Name</span>
-                  <strong>{transaction?.bankAccount.accountName}</strong>
-                </div>
+                <div className="payment-row"><span>Account Name</span><strong>{transaction?.bankAccount.accountName}</strong></div>
                 <div className="payment-row highlight">
                   <span>Exact Amount</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -296,17 +219,12 @@ export default function Dashboard() {
                     </button>
                   </div>
                 </div>
-                <div className="payment-row">
-                  <span>Reference</span>
-                  <strong>{transaction?.reference}</strong>
-                </div>
+                <div className="payment-row"><span>Reference</span><strong>{transaction?.reference}</strong></div>
               </div>
-
               <div className="payment-notice">
                 <Clock size={16} />
                 <span>Transfer the <strong>exact amount</strong> shown above. This virtual account expires in <strong>30 minutes</strong>. Do not close this page.</span>
               </div>
-
               <button onClick={handleTransferred} className="btn btn-primary btn-full">
                 I've Transferred <CheckCircle size={16} />
               </button>
@@ -316,9 +234,7 @@ export default function Dashboard() {
           {/* ── Step 4: Confirmation ── */}
           {step === 4 && (
             <div className="confirmation">
-              <div className="confirmation-icon">
-                <Clock size={40} color="var(--primary)" />
-              </div>
+              <div className="confirmation-icon"><Clock size={40} color="var(--primary)" /></div>
               <h3>Verifying your payment</h3>
               <p>We're checking your transfer. Once confirmed, <strong>{tokenAmount} {form.token}</strong> will be sent to your <strong>{form.chain}</strong> wallet automatically.</p>
               <div className="confirmation-address">
@@ -329,14 +245,11 @@ export default function Dashboard() {
                 <Clock size={16} />
                 <span>This usually takes under 60 seconds after your bank confirms the transfer. You can safely close this page.</span>
               </div>
-              <button onClick={reset} className="btn btn-outline btn-full" style={{ marginTop: 20 }}>
-                Start New Transaction
-              </button>
+              <button onClick={reset} className="btn btn-outline btn-full" style={{ marginTop: 20 }}>Start New Transaction</button>
             </div>
           )}
-
         </div>
       </div>
-    </div>
+    </DashboardLayout>
   );
 }
