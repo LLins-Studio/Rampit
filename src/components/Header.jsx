@@ -43,6 +43,7 @@ export default function Header() {
       </Link>
       <nav>
         <ul>
+          <li><a href="#buy" onClick={(e) => handleNavClick(e, '#buy')}>Buy Crypto</a></li>
           <li><a href="#benefits" onClick={(e) => handleNavClick(e, '#benefits')}>Benefits</a></li>
           <li><a href="#features" onClick={(e) => handleNavClick(e, '#features')}>Features</a></li>
           <li><a href="#security" onClick={(e) => handleNavClick(e, '#security')}>Security</a></li>
@@ -51,14 +52,13 @@ export default function Header() {
       </nav>
       {user ? (
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-muted)' }}>{user.fullName}</span>
+          <Link to="/dashboard" className="btn btn-primary" style={{ padding: '10px 20px', fontSize: '0.875rem' }}>Dashboard</Link>
           <button onClick={handleLogout} className="btn btn-outline" style={{ padding: '10px 20px', fontSize: '0.875rem' }}>Sign out</button>
         </div>
       ) : (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <Link to="/login" className="btn btn-outline" style={{ padding: '10px 20px', fontSize: '0.875rem' }}>Sign in</Link>
-          <Link to="/register" className="btn btn-primary" style={{ padding: '10px 20px', fontSize: '0.875rem' }}>Get started</Link>
-        </div>
+        <a href="#buy" onClick={(e) => { e.preventDefault(); document.querySelector('#buy')?.scrollIntoView({ behavior: 'smooth' }); }} className="btn btn-primary" style={{ padding: '10px 20px', fontSize: '0.875rem' }}>
+          Get started
+        </a>
       )}
     </header>
   );

@@ -5,8 +5,8 @@
     --primary-dark: #00643c;
     --primary-light: #e6f3ed;
     --accent: #00d084;
-    --bg: #ffffff;
-    --bg-alt: #f1f3f7;
+    --bg: #F7F8FA;
+    --bg-alt: #EDEEF1;
     --text: #000000;
     --text-muted: #555555;
     --border: #f0f0f0;
@@ -51,7 +51,7 @@ section {
 
 /* --- Typography --- */
 
-h1 { font-size: clamp(2.5rem, 5.5vw, 4.5rem); margin-bottom: 24px; font-weight: 900; }
+h1 { font-size: clamp(2.5rem, 5.5vw, 4.5rem); margin-bottom: 12px; font-weight: 900; }
 h2 { font-size: clamp(2.25rem, 4.5vw, 3.5rem); margin-bottom: 20px; text-align: center; font-weight: 800; }
 h3 { font-size: 1.25rem; margin-bottom: 12px; font-weight: 700; }
 
@@ -189,9 +189,9 @@ nav a:hover {
 
 .hero {
     padding-top: 140px;
-    padding-bottom: 60px;
+    padding-bottom: 40px;
     text-align: center;
-    background: #ffffff;
+    background: var(--bg);
 }
 
 .social-proof {
@@ -287,7 +287,7 @@ nav a:hover {
 }
 
 .features-comprehensive {
-    background: #ffffff;
+    background: var(--bg);
     padding: 120px 0;
 }
 
@@ -1676,4 +1676,258 @@ nav a:hover {
   .dl-main { padding: 20px 16px; }
 
   .tx-summary-cards { grid-template-columns: 1fr 1fr; }
+}
+
+/* ─── Buy Crypto Landing Section ────────────────────────────────────────── */
+
+.buy-section-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+.buy-section-left h2 {
+  text-align: left;
+}
+
+.rates-cards {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.rates-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 24px;
+  min-width: 140px;
+}
+
+.rates-card-token {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.rates-card-rate {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.rates-card-change {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.buy-form-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 36px;
+  box-shadow: var(--shadow-lg);
+}
+
+.buy-form-card h3 {
+  font-size: 1.25rem;
+}
+
+/* ─── Auth Modal ─────────────────────────────────────────────────────────── */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  width: 100%;
+  max-width: 440px;
+  position: relative;
+  box-shadow: var(--shadow-lg);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: var(--bg-alt);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: background 0.2s ease;
+}
+
+.modal-close:hover {
+  background: var(--border);
+}
+
+.modal-switch-btn {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: inherit;
+  font-family: var(--font-main);
+  padding: 0;
+}
+
+.modal-switch-btn:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .buy-section-layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .buy-form-card {
+    padding: 24px 20px;
+  }
+
+  .modal-card {
+    padding: 32px 24px;
+  }
+}
+
+/* ─── Hero Inline Buy Form ───────────────────────────────────────────────── */
+
+.hero-buy-layout {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 24px 60px;
+}
+
+.hero-rates-strip {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 24px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.hero-rate-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 28px;
+  border-right: 1px solid var(--border);
+  flex: 1;
+}
+
+.hero-rate-item:last-child {
+  border-right: none;
+}
+
+.hero-rate-token {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.hero-rate-value {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.hero-rate-change {
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.hero-buy-form-wrap {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-lg);
+}
+
+.hero-buy-form-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.hero-buy-form-row .form-group {
+  flex: 1;
+  min-width: 120px;
+}
+
+.hero-buy-btn {
+  padding: 12px 24px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  height: 46px;
+}
+
+.hero-buy-hint {
+  margin-top: 12px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.hero-buy-hint strong {
+  color: var(--primary);
+}
+
+@media (max-width: 640px) {
+  .hero-rates-strip {
+    flex-wrap: wrap;
+  }
+
+  .hero-rate-item {
+    flex: 1 1 45%;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-buy-form-row {
+    flex-direction: column;
+  }
+
+  .hero-buy-form-row .form-group {
+    width: 100%;
+  }
+
+  .hero-buy-btn {
+    width: 100%;
+    height: auto;
+  }
 }

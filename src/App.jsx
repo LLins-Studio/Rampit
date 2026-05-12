@@ -12,18 +12,19 @@ import Transactions from './pages/Transactions';
 import Account from './pages/Account';
 
 // Components
-import DevBanner from './components/DevBanner';
 import ProtectedRoute from './components/ProtectedRoute';
-
-// Landing page sections
-import useScrollReveal from './hooks/useScrollReveal';
+import DevBanner from './components/DevBanner';
 import Header from './components/Header';
+import Footer from './components/Footer';
+import BuyCrypto from './components/BuyCrypto';
+
+// Landing sections
+import useScrollReveal from './hooks/useScrollReveal';
 import Hero from './components/Hero';
 import Challenge from './components/Challenge';
 import HyperAutomation from './components/HyperAutomation';
 import Features from './components/Features';
 import Benefits from './components/Benefits';
-import Footer from './components/Footer';
 
 function Landing() {
   useScrollReveal();
@@ -33,6 +34,7 @@ function Landing() {
       <Header />
       <main>
         <Hero />
+        <BuyCrypto />
         <Challenge />
         <HyperAutomation />
         <Features />
@@ -52,11 +54,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/dashboard" element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          } />
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/kyc" element={<ProtectedRoute><KYC /></ProtectedRoute>} />
           <Route path="/transactions" element={<ProtectedRoute><Transactions /></ProtectedRoute>} />
           <Route path="/account" element={<ProtectedRoute><Account /></ProtectedRoute>} />
