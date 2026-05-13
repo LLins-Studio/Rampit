@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import Image from "next/image";
 import { useAuth } from "@/lib/AuthContext";
 
 // ── Types ────────────────────────────────────────────────────────────────────
@@ -96,11 +95,13 @@ function calcCrypto(rawFiat: number, fiat: FiatCode, token: Token, fee: number):
 // ── Primitives ───────────────────────────────────────────────────────────────
 function FiatIcon({ code, size = 28 }: { code: FiatCode; size?: number }) {
   const f = FIAT_CURRENCIES.find((x) => x.code === code)!;
-  return <Image src={f.icon} alt={f.name} width={size} height={size} className="rounded-full flex-shrink-0 object-cover" />;
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src={f.icon} alt={f.name} width={size} height={size} className="rounded-full flex-shrink-0 object-cover" />;
 }
 function TokenIcon({ token, size = 26 }: { token: Token; size?: number }) {
   const t = TOKENS.find((x) => x.id === token)!;
-  return <Image src={t.icon} alt={t.name} width={size} height={size} className="rounded-full flex-shrink-0" />;
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src={t.icon} alt={t.name} width={size} height={size} className="rounded-full flex-shrink-0" />;
 }
 function FieldLabel({ htmlFor, children }: { htmlFor: string; children: React.ReactNode }) {
   return (

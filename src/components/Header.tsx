@@ -137,11 +137,7 @@ export default function Header() {
                 {label}
               </a>
             ))}
-            <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full"
-              style={{ background: "var(--bg-tertiary)", border: "1px solid var(--border)", fontFamily: "var(--font-body)", fontSize: "12px", color: "var(--text-secondary)" }}>
-              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "var(--success)" }} />
-              Live Rates
-            </span>
+
           </nav>
 
           {/* Right controls */}
