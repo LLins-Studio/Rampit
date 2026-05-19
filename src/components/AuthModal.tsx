@@ -7,13 +7,38 @@ type AuthStep = "email" | "otp";
 const OTP_LENGTH = 6;
 const RESEND_COOLDOWN = 30;
 
-// Mock: any email + any 6-digit OTP passes
-async function mockSendOtp(_email: string): Promise<void> {
-  await new Promise((r) => setTimeout(r, 800));
+async function makeApiRequest(endpoint: string, body: Record<string, unknown>) {
+  const response = await fetch(endpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+
+  const payload = await response.json().catch(() => null);
+  if (!response.ok) {
+    throw new Error(payload?.message || payload?.error || "Request failed");
+  }
+  return payload;
 }
-async function mockVerifyOtp(_email: string, otp: string): Promise<boolean> {
-  await new Promise((r) => setTimeout(r, 900));
-  return otp.length === OTP_LENGTH; // any 6 digits pass
+
+async function sendOtp(email: string): Promise<void> {
+  const payload = await makeApiRequest("/api/auth/login", { email });
+  if (!payload?.success) {
+    throw new Error(payload?.message || "Failed to send code");
+  }
+}
+
+async function verifyOtp(email: string, code: string): Promise<boolean> {
+  const payload = await makeApiRequest("/api/auth/login/verify", { email, otp: code });
+  const accessToken = payload?.data?.access_token;
+  const refreshToken = payload?.data?.refresh_token;
+  if (!accessToken || !refreshToken) {
+    throw new Error("Authentication response missing tokens");
+  }
+
+  localStorage.setItem("rampit_access_token", accessToken);
+  localStorage.setItem("rampit_refresh_token", refreshToken);
+  return true;
 }
 
 export default function AuthModal({
@@ -57,11 +82,11 @@ export default function AuthModal({
     if (!isValidEmail) { setError("Enter a valid email address"); return; }
     setLoading(true); setError("");
     try {
-      await mockSendOtp(email.trim());
+      await sendOtp(email.trim());
       setStep("otp");
       setCooldown(RESEND_COOLDOWN);
-    } catch {
-      setError("Failed to send code. Try again.");
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Failed to send code. Try again.");
     } finally {
       setLoading(false);
     }
@@ -72,11 +97,12 @@ export default function AuthModal({
     if (code.length < OTP_LENGTH) { setError("Enter the 6-digit code"); return; }
     setLoading(true); setError("");
     try {
-      const ok = await mockVerifyOtp(email.trim(), code);
-      if (ok) { onSuccess(email.trim()); }
-      else { setError("Incorrect code. Try again."); setOtp(Array(OTP_LENGTH).fill("")); inputRefs.current[0]?.focus(); }
-    } catch {
-      setError("Verification failed. Try again.");
+      await verifyOtp(email.trim(), code);
+      onSuccess(email.trim());
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Verification failed. Try again.");
+      setOtp(Array(OTP_LENGTH).fill(""));
+      inputRefs.current[0]?.focus();
     } finally {
       setLoading(false);
     }
