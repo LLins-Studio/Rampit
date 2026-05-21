@@ -1,0 +1,13 @@
+# Never commit deps or build output from contract workspaces
+node_modules/
+target/
+cache/
+out/
+broadcast/
+.anchor/
+test-ledger/
+
+# Local secrets (use .env.example templates at repo root)
+.env
+.env.local
+.env.*.local

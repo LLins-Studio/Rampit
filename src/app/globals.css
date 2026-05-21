@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* Scan frontend only — avoid contracts/ (Anchor test-ledger sockets break Turbopack). */
+@source "../**/*.{js,ts,jsx,tsx,mdx}";
+@source not "../../contracts/**";
+
 @theme {
   --font-display: "Plus Jakarta Sans", sans-serif;
   --font-body: "Plus Jakarta Sans", sans-serif;
@@ -115,6 +119,44 @@ body::before {
   box-shadow: 0 0 0 3px var(--accent-muted);
 }
 .input-dark:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* Select — black field, yellow text (readable native dropdown) */
+.select-rampit {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 100%;
+  border-radius: 0.5rem;
+  padding: 0.5rem 2.25rem 0.5rem 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  cursor: pointer;
+  color-scheme: dark;
+  background-color: #0a0a0b;
+  color: #b5cc18;
+  border: 1px solid #b5cc18;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%23B5CC18' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.65rem center;
+  background-size: 12px;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  outline: none;
+}
+.select-rampit:focus {
+  box-shadow: 0 0 0 3px rgba(181, 204, 24, 0.35);
+  border-color: #d4e820;
+}
+.select-rampit:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.select-rampit option,
+.select-rampit optgroup {
+  background-color: #0a0a0b;
+  color: #b5cc18;
+}
 
 /* Gold CTA */
 .btn-gold {

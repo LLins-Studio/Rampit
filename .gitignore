@@ -1,7 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
-/node_modules
+# dependencies (root and nested, e.g. contracts/solana)
+node_modules/
 /.pnp
 .pnp.*
 .yarn/*
@@ -12,6 +12,25 @@
 
 # testing
 /coverage
+**/__snapshots__/
+**/*.snap
+**/.vitest/
+**/.jest/
+
+# Rust / Soroban / native builds
+**/target/
+
+# Foundry (EVM)
+contracts/evm/cache/
+contracts/evm/out/
+contracts/evm/broadcast/
+
+# Anchor / Solana
+**/.anchor/
+**/test-ledger/
+
+# Stacks / Clarinet temp
+contracts/stacks/tmp/
 
 # next.js
 /.next/
@@ -31,7 +50,10 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
-.env*
+.env
+.env.local
+.env.*.local
+!.env.example
 
 # vercel
 .vercel

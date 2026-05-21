@@ -1,0 +1,32 @@
+[project]
+name = "rampit-escrow"
+description = "Escrow contract for the Rampit crypto/fiat on-off ramp on Stacks"
+authors = []
+telemetry = false
+cache_dir = "./.cache"
+
+[contracts.sip-010-trait]
+path = "contracts/sip-010-trait.clar"
+clarity_version = 3
+epoch = 3.0
+
+[contracts.mock-token]
+path = "contracts/mock-token.clar"
+clarity_version = 3
+epoch = 3.0
+depends_on = ["sip-010-trait"]
+
+[contracts.mock-token-2]
+path = "contracts/mock-token-2.clar"
+clarity_version = 3
+epoch = 3.0
+depends_on = ["sip-010-trait"]
+
+[contracts.rampit-escrow]
+path = "contracts/rampit-escrow.clar"
+clarity_version = 3
+epoch = 3.0
+depends_on = ["sip-010-trait"]
+
+[repl.analysis]
+passes = ["check_checker"]

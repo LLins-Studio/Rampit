@@ -1,6 +1,9 @@
+# Full Next.js on Netlify (server actions + API routes). Do not use publish = "out".
 [build]
-  command   = "npm run build"
-  publish   = "out"
+  command = "npm run build"
 
 [build.environment]
   NODE_VERSION = "20"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

@@ -1,0 +1,81 @@
+{
+  "stellar": {
+    "testnet": {
+      "contractId": "CBALW6L6MMXHM272SUQNXCBJ5LA5WB6FS6DBEV2Z4W5CAUI4UIB3HOLL",
+      "wasmHash": "5fb4102e0e08593eb91c7c6139efb0bdbc8302ab3012f253d06c39168773bae8",
+      "admin": "GAQT6XZFQGQVUYI3EYKJ2OYHY7NJ7OD5OY6NQYB4HPN7BYNZZVKBUXQX",
+      "relayer": "GAQT6XZFQGQVUYI3EYKJ2OYHY7NJ7OD5OY6NQYB4HPN7BYNZZVKBUXQX",
+      "feeBps": 50,
+      "deployTx": "7f61fd5a9cbb7646f2c445b35951d57857779beeb5a29477c1621d443ea7116f",
+      "explorer": "https://stellar.expert/explorer/testnet/contract/CBALW6L6MMXHM272SUQNXCBJ5LA5WB6FS6DBEV2Z4W5CAUI4UIB3HOLL"
+    },
+    "mainnet": {
+      "contractId": "CAFTDA2AO6GSKMB4CGN5H3BPFEBPDG7YRJQEVHPQGGFIPJFRKZUQADSH",
+      "wasmHash": "5fb4102e0e08593eb91c7c6139efb0bdbc8302ab3012f253d06c39168773bae8",
+      "admin": "GBVNFWXHJBY5RG2EEZ7A6XVUAIEIPM2ITL6PCUQZQOHKM2AQRTMKYFNQ",
+      "relayer": "GBVNFWXHJBY5RG2EEZ7A6XVUAIEIPM2ITL6PCUQZQOHKM2AQRTMKYFNQ",
+      "feeBps": 50,
+      "explorer": "https://stellar.expert/explorer/public/contract/CAFTDA2AO6GSKMB4CGN5H3BPFEBPDG7YRJQEVHPQGGFIPJFRKZUQADSH"
+    }
+  },
+  "solana": {
+    "mainnet": {
+      "programId": "",
+      "statePda": "",
+      "admin": "",
+      "relayer": "",
+      "feeBps": 50,
+      "note": "Fill after: cd contracts/solana && bash deploy-mainnet.sh"
+    }
+  },
+  "evm": {
+    "celo": {
+      "mainnet": {
+        "chainId": 42220,
+        "proxy": "0x94460590e511e464482595b5953982d5c9ddef4e",
+        "implementation": "0xc2ca9800b6531eaf2fd72cb33df98409fa72fdbe",
+        "admin": "0x56DB2f2BA3305A6B2d5993e7d979b8AC5F93910F",
+        "relayer": "0x56DB2f2BA3305A6B2d5993e7d979b8AC5F93910F",
+        "feeBps": 50,
+        "version": "v2-native",
+        "explorer": "https://celoscan.io/address/0x94460590e511e464482595b5953982d5c9ddef4e"
+      },
+      "mainnetV1": {
+        "proxy": "0x748c312bb1bfa8ff24820c16d11757177d57ed3c",
+        "note": "ERC-20 only (deprecated)"
+      }
+    },
+    "base": {
+      "mainnet": {
+        "chainId": 8453,
+        "proxy": "0x94460590e511e464482595b5953982d5c9ddef4e",
+        "implementation": "0xc2ca9800b6531eaf2fd72cb33df98409fa72fdbe",
+        "admin": "0x56DB2f2BA3305A6B2d5993e7d979b8AC5F93910F",
+        "relayer": "0x56DB2f2BA3305A6B2d5993e7d979b8AC5F93910F",
+        "feeBps": 50,
+        "version": "v2-native",
+        "explorer": "https://basescan.org/address/0x94460590e511e464482595b5953982d5c9ddef4e"
+      },
+      "mainnetV1": {
+        "proxy": "0x748c312bb1bfa8ff24820c16d11757177d57ed3c",
+        "note": "ERC-20 only (deprecated)"
+      }
+    },
+    "bnb": {
+      "mainnet": {
+        "chainId": 56,
+        "proxy": "0x94460590e511e464482595b5953982d5c9ddef4e",
+        "implementation": "0xc2ca9800b6531eaf2fd72cb33df98409fa72fdbe",
+        "admin": "0x56DB2f2BA3305A6B2d5993e7d979b8AC5F93910F",
+        "relayer": "0x56DB2f2BA3305A6B2d5993e7d979b8AC5F93910F",
+        "feeBps": 50,
+        "version": "v2-native",
+        "explorer": "https://bscscan.com/address/0x94460590e511e464482595b5953982d5c9ddef4e"
+      },
+      "mainnetV1": {
+        "proxy": "0x748c312bb1bfa8ff24820c16d11757177d57ed3c",
+        "note": "ERC-20 only (deprecated)"
+      }
+    }
+  }
+}

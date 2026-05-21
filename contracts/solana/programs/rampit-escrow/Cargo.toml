@@ -1,0 +1,21 @@
+[package]
+name = "rampit-escrow"
+version = "0.1.0"
+edition = "2021"
+description = "Anchor escrow program for the Rampit crypto/fiat on-off ramp"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "rampit_escrow"
+
+[features]
+default = []
+cpi = ["no-entrypoint"]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
+
+[dependencies]
+anchor-lang = { version = "0.31.1", features = ["init-if-needed"] }
+anchor-spl = "0.31.1"
