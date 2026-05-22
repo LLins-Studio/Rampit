@@ -477,11 +477,31 @@ export default function BuyForm() {
     setModal("bank");
   }
 
-  function handleSentPayment() {
+  async function handleSentPayment() {
     setModal("confirming");
-    timerRef.current = setTimeout(() => {
-      setModal(Math.random() > 0.4 ? "success" : "failed");
-    }, CONFIRM_DURATION);
+    try {
+      const chainMap: Record<string, string> = {
+        "Stellar":      "stellar",
+        "Celo Network": "celo",
+        "BEP-20":       "bnb",
+        "ERC-20":       "base",
+        "TRC-20":       "stellar",
+        "Solana":       "stellar", // placeholder until Solana contract is live
+      };
+      const chain = chainMap[network] ?? "stellar";
+      const orderId = `RMP-${Math.random().toString(36).slice(2, 10).toUpperCase()}`;
+
+      const res = await fetch("/api/escrow/release", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId, chain }),
+      });
+
+      const data = await res.json().catch(() => null);
+      setModal(res.ok && data?.success ? "success" : "failed");
+    } catch {
+      setModal("failed");
+    }
   }
 
   function handleModalClose() {
