@@ -49,7 +49,7 @@ export default function Hero() {
           animationDelay: "0.1s",
         }}
       >
-        Buy Crypto.
+        Buy Crypto,
         <br />
         <span style={{ color: "var(--accent)" }}>Pay Local.</span>
       </h1>
