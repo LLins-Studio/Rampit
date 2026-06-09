@@ -23,19 +23,14 @@ async function makeApiRequest(endpoint: string, body: Record<string, unknown>) {
 
 async function sendOtp(email: string): Promise<void> {
   const payload = await makeApiRequest("/api/auth/login", { email });
-  if (!payload?.success) {
-    throw new Error(payload?.message || "Failed to send code");
-  }
+  if (!payload?.success) throw new Error(payload?.message || "Failed to send code");
 }
 
 async function verifyOtp(email: string, code: string): Promise<boolean> {
   const payload = await makeApiRequest("/api/auth/login/verify", { email, otp: code });
   const accessToken = payload?.data?.access_token;
   const refreshToken = payload?.data?.refresh_token;
-  if (!accessToken || !refreshToken) {
-    throw new Error("Authentication response missing tokens");
-  }
-
+  if (!accessToken || !refreshToken) throw new Error(payload?.message || "Verification failed");
   localStorage.setItem("rampit_access_token", accessToken);
   localStorage.setItem("rampit_refresh_token", refreshToken);
   return true;
