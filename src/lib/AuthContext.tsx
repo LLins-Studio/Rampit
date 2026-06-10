@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 export type SavedWallet = { network: string; address: string; memo?: string; label?: string };
 
@@ -49,9 +49,25 @@ export const MOCK_ORDERS: Order[] = [
 
 export type KycStatus = "unverified" | "pending" | "verified";
 
+export type UserProfile = {
+  id: string;
+  email: string;
+  username: string | null;
+  firstname: string | null;
+  lastname: string | null;
+  phone: string | null;
+  country: string | null;
+  status: string;
+  type: string;
+  email_verified_at: string | null;
+  created_at: string;
+};
+
 type AuthCtx = {
   user: string | null;
   setUser: (u: string | null) => void;
+  profile: UserProfile | null;
+  setProfile: (p: UserProfile | null) => void;
   authOpen: boolean;
   setAuthOpen: (o: boolean) => void;
   savedWallets: SavedWallet[];
@@ -61,25 +77,52 @@ type AuthCtx = {
   setKycStatus: (s: KycStatus) => void;
   kycOpen: boolean;
   setKycOpen: (o: boolean) => void;
+  logout: () => void;
 };
 
 const AuthContext = createContext<AuthCtx>({
-  user: null, setUser: () => {}, authOpen: false, setAuthOpen: () => {},
+  user: null, setUser: () => {}, profile: null, setProfile: () => {},
+  authOpen: false, setAuthOpen: () => {},
   savedWallets: [], setSavedWallets: () => {}, orders: [],
   kycStatus: "unverified", setKycStatus: () => {}, kycOpen: false, setKycOpen: () => {},
+  logout: () => {},
 });
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser]               = useState<string | null>(null);
+  const [profile, setProfile]         = useState<UserProfile | null>(null);
   const [authOpen, setAuthOpen]       = useState(false);
   const [kycStatus, setKycStatus]     = useState<KycStatus>("unverified");
   const [kycOpen, setKycOpen]         = useState(false);
-  const [savedWallets, setSavedWallets] = useState<SavedWallet[]>([
-    { network: "TRC-20", address: "TXYZabc123456789012345678901234567", label: "My Tron Wallet" },
-    { network: "Stellar", address: "GABCDEFGHIJKLMNOPQRSTUVWXYZ234567890ABCDEFGHIJKLMNOPQR", memo: "123456", label: "Stellar Main" },
-  ]);
+  const [savedWallets, setSavedWallets] = useState<SavedWallet[]>([]);
+
+  // Restore session from localStorage on mount
+  useEffect(() => {
+    const token = localStorage.getItem("rampit_access_token");
+    if (!token) return;
+    fetch("/api/users/me", { headers: { Authorization: `Bearer ${token}` } })
+      .then((r) => r.json())
+      .then((res) => {
+        if (res?.success && res.data) {
+          setProfile(res.data);
+          setUser(res.data.email);
+        } else {
+          localStorage.removeItem("rampit_access_token");
+          localStorage.removeItem("rampit_refresh_token");
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  function logout() {
+    localStorage.removeItem("rampit_access_token");
+    localStorage.removeItem("rampit_refresh_token");
+    setUser(null);
+    setProfile(null);
+  }
+
   return (
-    <AuthContext.Provider value={{ user, setUser, authOpen, setAuthOpen, savedWallets, setSavedWallets, orders: MOCK_ORDERS, kycStatus, setKycStatus, kycOpen, setKycOpen }}>
+    <AuthContext.Provider value={{ user, setUser, profile, setProfile, authOpen, setAuthOpen, savedWallets, setSavedWallets, orders: MOCK_ORDERS, kycStatus, setKycStatus, kycOpen, setKycOpen, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -5,19 +5,33 @@ import Link from "next/link";
 import { useAuth, KycStatus } from "@/lib/AuthContext";
 
 export default function ProfilePage() {
-  const { user, orders, kycStatus, setKycOpen } = useAuth();
-  const [editing, setEditing]   = useState(false);
-  const [name, setName]         = useState("Alex Johnson");
-  const [phone, setPhone]       = useState("+234 800 000 0000");
-  const [country, setCountry]   = useState("Nigeria");
-  const [draft, setDraft]       = useState({ name, phone, country });
+  const { user, profile, setProfile, orders, kycStatus, setKycOpen } = useAuth();
+  const [editing, setEditing] = useState(false);
+  const [saving, setSaving]   = useState(false);
+
+  const fullName = [profile?.firstname, profile?.lastname].filter(Boolean).join(" ") || "—";
+  const phone    = profile?.phone ?? "—";
+  const country  = profile?.country ?? "—";
+  const joined   = profile?.created_at ? new Date(profile.created_at).toLocaleDateString("en-GB", { month: "long", year: "numeric" }) : "—";
+  const initials = user ? user.slice(0, 2).toUpperCase() : "?";
+
+  const [draft, setDraft] = useState({ firstname: profile?.firstname ?? "", lastname: profile?.lastname ?? "", phone: profile?.phone ?? "", country: profile?.country ?? "" });
 
   const completed = orders.filter((o) => o.status === "completed").length;
   const totalVol  = orders.filter((o) => o.status === "completed").reduce((s, o) => s + o.fiatAmount, 0);
-  const initials  = user ? user.slice(0, 2).toUpperCase() : "?";
-  const joined    = "May 2026";
 
-  function save() { setName(draft.name); setPhone(draft.phone); setCountry(draft.country); setEditing(false); }
+  async function save() {
+    setSaving(true);
+    const token = localStorage.getItem("rampit_access_token");
+    const res = await fetch("/api/users/me", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ firstname: draft.firstname, lastname: draft.lastname, phone: draft.phone, country: draft.country }),
+    }).then((r) => r.json()).catch(() => null);
+    if (res?.success && res.data) setProfile(res.data);
+    setSaving(false);
+    setEditing(false);
+  }
 
   const KYC_BADGE: Record<KycStatus, React.ReactNode> = {
     unverified: (
@@ -86,14 +100,14 @@ export default function ProfilePage() {
             {initials}
           </div>
           <div className="flex-1 min-w-0">
-            <p style={{ fontFamily: "var(--font-display)", fontSize: "22px", fontWeight: 800, color: "var(--text-primary)", marginBottom: "2px" }}>{name}</p>
+            <p style={{ fontFamily: "var(--font-display)", fontSize: "22px", fontWeight: 800, color: "var(--text-primary)", marginBottom: "2px" }}>{fullName}</p>
             <p style={{ fontFamily: "var(--font-mono)", fontSize: "13px", color: "var(--text-secondary)", marginBottom: "6px" }}>{user ?? "—"}</p>
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--success)" }} />
               <span style={{ fontFamily: "var(--font-body)", fontSize: "12px", color: "var(--text-tertiary)" }}>Joined {joined}</span>
             </div>
           </div>
-          <button onClick={() => { setDraft({ name, phone, country }); setEditing(true); }}
+          <button onClick={() => { setDraft({ firstname: profile?.firstname ?? "", lastname: profile?.lastname ?? "", phone: profile?.phone ?? "", country: profile?.country ?? "" }); setEditing(true); }}
             className="px-3 py-2 rounded-xl transition-colors duration-150 flex-shrink-0"
             style={{ background: "var(--bg-tertiary)", border: "1px solid var(--border)", color: "var(--text-secondary)", fontFamily: "var(--font-body)", fontSize: "12px", fontWeight: 600, cursor: "pointer" }}>
             Edit
@@ -122,7 +136,7 @@ export default function ProfilePage() {
             </h2>
           </div>
           {([
-            ["Full Name",    name],
+            ["Full Name",    fullName],
             ["Email",        user ?? "—"],
             ["Phone",        phone],
             ["Country",      country],
@@ -146,9 +160,10 @@ export default function ProfilePage() {
             style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }} onClick={(e) => e.stopPropagation()}>
             <h3 style={{ fontFamily: "var(--font-body)", fontSize: "18px", fontWeight: 700, color: "var(--text-primary)" }}>Edit Profile</h3>
             {[
-              { label: "Full Name", key: "name" as const, type: "text" },
-              { label: "Phone",     key: "phone" as const, type: "tel" },
-              { label: "Country",   key: "country" as const, type: "text" },
+              { label: "First Name", key: "firstname" as const, type: "text" },
+              { label: "Last Name",  key: "lastname" as const,  type: "text" },
+              { label: "Phone",      key: "phone" as const,     type: "tel" },
+              { label: "Country",    key: "country" as const,   type: "text" },
             ].map(({ label, key, type }) => (
               <div key={key}>
                 <label style={{ fontFamily: "var(--font-body)", fontSize: "13px", fontWeight: 600, color: "var(--text-secondary)", display: "block", marginBottom: "6px" }}>{label}</label>
@@ -162,7 +177,7 @@ export default function ProfilePage() {
                 style={{ background: "var(--bg-tertiary)", border: "1px solid var(--border)", color: "var(--text-secondary)", fontFamily: "var(--font-body)", fontSize: "14px", fontWeight: 600, cursor: "pointer" }}>
                 Cancel
               </button>
-              <button onClick={save} className="btn-gold flex-1 rounded-xl py-3 text-sm">Save</button>
+              <button onClick={save} disabled={saving} className="btn-gold flex-1 rounded-xl py-3 text-sm">{saving ? "Saving…" : "Save"}</button>
             </div>
           </div>
         </div>
