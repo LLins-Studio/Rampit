@@ -2,9 +2,12 @@ import { NextResponse } from "next/server";
 import { createPublicClient, http, isAddress } from "viem";
 import { celo } from "viem/chains";
 
+export const runtime = "nodejs";
+export const maxDuration = 15;
+
 const celoClient = createPublicClient({
   chain: celo,
-  transport: http(process.env.NEXT_PUBLIC_CELO_RPC_URL ?? "https://forno.celo.org"),
+  transport: http("https://forno.celo.org", { timeout: 10_000 }),
 });
 
 export type WalletAgentResult = {
@@ -46,11 +49,17 @@ export async function POST(request: Request) {
   const address: string = body?.address?.trim() ?? "";
   const network: string = body?.network?.trim() ?? "";
 
+  const headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST",
+    "Access-Control-Allow-Headers": "Content-Type",
+  };
+
   if (!address) {
     return NextResponse.json<WalletAgentResult>({
       valid: false, status: "invalid_format",
       message: "No address provided.", details: {},
-    });
+    }, { headers });
   }
 
   const pattern = PATTERNS[network];

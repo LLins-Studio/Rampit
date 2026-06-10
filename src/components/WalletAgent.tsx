@@ -94,6 +94,7 @@ export default function WalletAgent({ address, network }: { address: string; net
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ address: trimmed, network }),
         });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data: WalletAgentResult = await res.json();
         lastChecked.current = trimmed;
         setResult(data);
