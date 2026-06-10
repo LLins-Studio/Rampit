@@ -3,7 +3,7 @@ import Link from "next/link";
 const NAV_LINKS = [
   { label: "Terms",   href: "/terms"   },
   { label: "Privacy", href: "/privacy" },
-  { label: "Support", href: "mailto:support@rampit.io" },
+  { label: "Support", href: "mailto:support@rampit.xyz" },
 ] as const;
 
 export default function Footer() {

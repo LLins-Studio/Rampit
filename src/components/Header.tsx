@@ -23,7 +23,7 @@ function MoonIcon() {
 
 const NAV_LINKS = [
   { href: "#how-it-works", label: "How It Works" },
-  { href: "mailto:support@rampit.io", label: "Get Support" },
+  { href: "mailto:support@rampit.xyz", label: "Support" },
 ] as const;
 
 function Chevron({ open }: { open: boolean }) {
@@ -101,7 +101,7 @@ export default function Header() {
 
   const PROFILE_LINKS = [
     { icon: <DashboardIcon />, label: "Dashboard",    href: "/dashboard" },
-    { icon: <HistoryIcon />,   label: "Order History", href: "/history" },
+    { icon: <HistoryIcon />,   label: "History", href: "/history" },
     { icon: <ProfileIcon />,   label: "Profile",       href: "/profile" },
     { icon: <SettingsIcon />,  label: "Settings",      href: "/settings" },
   ];
