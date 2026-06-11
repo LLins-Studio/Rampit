@@ -62,7 +62,7 @@ async function sendEmail(email: string, code: string) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: "Rampit <no-reply@rampit.xyz>",
+      from: "Rampit <onboarding@resend.dev>",
       to: email,
       subject: "Your Rampit verification code",
       html: buildEmailHtml(code),

@@ -98,25 +98,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Restore session from localStorage on mount
   useEffect(() => {
-    const token = localStorage.getItem("rampit_access_token");
-    if (!token) return;
-    fetch("/api/users/me", { headers: { Authorization: `Bearer ${token}` } })
-      .then((r) => r.json())
-      .then((res) => {
-        if (res?.success && res.data) {
-          setProfile(res.data);
-          setUser(res.data.email);
-        } else {
-          localStorage.removeItem("rampit_access_token");
-          localStorage.removeItem("rampit_refresh_token");
-        }
-      })
-      .catch(() => {});
+    const email = localStorage.getItem("rampit_session_email");
+    if (email) setUser(email);
   }, []);
 
   function logout() {
-    localStorage.removeItem("rampit_access_token");
-    localStorage.removeItem("rampit_refresh_token");
+    localStorage.removeItem("rampit_session_email");
     setUser(null);
     setProfile(null);
   }

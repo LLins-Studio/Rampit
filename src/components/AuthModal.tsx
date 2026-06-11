@@ -22,17 +22,18 @@ async function makeApiRequest(endpoint: string, body: Record<string, unknown>) {
 }
 
 async function sendOtp(email: string): Promise<void> {
-  const payload = await makeApiRequest("/api/auth/login", { email });
-  if (!payload?.success) throw new Error(payload?.message || "Failed to send code");
+  await makeApiRequest("/api/auth/otp", { email });
 }
 
 async function verifyOtp(email: string, code: string): Promise<boolean> {
-  const payload = await makeApiRequest("/api/auth/login/verify", { email, otp: code });
-  const accessToken = payload?.data?.access_token;
-  const refreshToken = payload?.data?.refresh_token;
-  if (!accessToken || !refreshToken) throw new Error(payload?.message || "Verification failed");
-  localStorage.setItem("rampit_access_token", accessToken);
-  localStorage.setItem("rampit_refresh_token", refreshToken);
+  const response = await fetch("/api/auth/otp", {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, code }),
+  });
+  const payload = await response.json().catch(() => null);
+  if (!response.ok) throw new Error(payload?.error || "Verification failed");
+  localStorage.setItem("rampit_session_email", email);
   return true;
 }
 
