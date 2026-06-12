@@ -100,7 +100,7 @@ export default function WalletAgent({ address, network }: { address: string; net
         setResult(data);
         setState("done");
       } catch {
-        setResult({ valid: false, status: "error", message: "Agent could not reach Celo network.", details: {} });
+        setResult({ valid: false, status: "error", message: "Agent unavailable. Please verify your address manually.", details: {} });
         setState("done");
       }
     }, DEBOUNCE_MS);
@@ -125,13 +125,9 @@ export default function WalletAgent({ address, network }: { address: string; net
       <div className="flex items-center gap-2 mb-1">
         <span style={{ color }}><AgentIcon spinning={state === "checking"} /></span>
         <span style={{ fontFamily: "var(--font-body)", fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color }}>
-          {state === "checking" ? "Celo Agent — Checking…" : "Celo Agent"}
+          {state === "checking" ? "AI Agent — Checking…" : "AI Agent"}
         </span>
-        {state === "done" && result?.details.checkedVia && (
-          <span style={{ fontFamily: "var(--font-body)", fontSize: "10px", color: "var(--text-tertiary)", marginLeft: "auto" }}>
-            via {result.details.checkedVia}
-          </span>
-        )}
+
       </div>
 
       {/* Skeleton */}
@@ -161,7 +157,7 @@ export default function WalletAgent({ address, network }: { address: string; net
                 style={{ marginLeft: "auto", fontFamily: "var(--font-body)", fontSize: "11px", color: "var(--text-tertiary)", textDecoration: "none", display: "flex", alignItems: "center", gap: 3 }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = "var(--accent)")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-tertiary)")}>
-                Celoscan
+                View on Explorer
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
                   <path d="M2 8L8 2M8 2H4M8 2v4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
