@@ -83,16 +83,12 @@ export async function POST(request: Request) {
 
       const isContract = !!bytecode && bytecode !== "0x";
       const celoscanUrl = `https://celoscan.io/address/${address}`;
-      const checkedVia = network === "Celo Network"
-        ? "Celo Mainnet"
-        : `Celo RPC (EVM format check — ${network} not verified on Celo)`;
+      const checkedVia = "AI Agent (EVM verification)";
 
       if (isContract) {
         return NextResponse.json<WalletAgentResult>({
           valid: true, status: "contract",
-          message: network === "Celo Network"
-            ? "This is a smart contract on Celo. Make sure it can receive tokens."
-            : `Valid ${network} address format. Note: this address is a contract on Celo — verify it's correct on ${network}.`,
+          message: `Valid ${network} address format. Note: this address is a smart contract — verify it can receive tokens.`,
           details: { isContract: true, txCount, celoscanUrl, checkedVia },
         });
       }
@@ -100,24 +96,20 @@ export async function POST(request: Request) {
       if (txCount === 0 && !isContract) {
         return NextResponse.json<WalletAgentResult>({
           valid: true, status: "empty_account",
-          message: network === "Celo Network"
-            ? "Valid Celo address but no on-chain activity detected. Double-check it's your correct wallet."
-            : `Valid ${network} address format. No Celo activity found — verify this is your correct ${network} address.`,
+          message: `Valid ${network} address format. No on-chain activity detected — double-check this is your correct wallet.`,
           details: { isContract: false, txCount: 0, celoscanUrl, checkedVia },
         });
       }
 
       return NextResponse.json<WalletAgentResult>({
         valid: true, status: "active_eoa",
-        message: network === "Celo Network"
-          ? `Active Celo wallet — ${txCount} transaction${txCount !== 1 ? "s" : ""}`
-          : `Valid ${network} address. Also active on Celo (${txCount} txns).`,
+        message: `Valid ${network} address. Active wallet detected (${txCount} txn${txCount !== 1 ? "s" : ""}).`,
         details: { isContract: false, txCount, celoscanUrl, checkedVia },
       });
     } catch {
       return NextResponse.json<WalletAgentResult>({
         valid: false, status: "error",
-        message: "Could not reach Celo network for verification.",
+        message: "Verification unavailable. Please double-check your address manually.",
         details: {},
       });
     }
