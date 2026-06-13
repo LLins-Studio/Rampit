@@ -145,23 +145,11 @@ export default function WalletAgent({ address, network }: { address: string; net
             </p>
           </div>
 
-          {/* Details */}
-          {result.details.celoscanUrl && (
+          {result.details.txCount !== undefined && (
             <div className="flex items-center gap-3 mt-2 pt-2" style={{ borderTop: `1px solid ${statusBorder(result.status)}` }}>
-              {result.details.txCount !== undefined && (
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: "11px", color: "var(--text-tertiary)" }}>
-                  Txns: <span style={{ color: "var(--text-secondary)", fontWeight: 600 }}>{result.details.txCount}</span>
-                </span>
-              )}
-              <a href={result.details.celoscanUrl} target="_blank" rel="noopener noreferrer"
-                style={{ marginLeft: "auto", fontFamily: "var(--font-body)", fontSize: "11px", color: "var(--text-tertiary)", textDecoration: "none", display: "flex", alignItems: "center", gap: 3 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--accent)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-tertiary)")}>
-                View on Explorer
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-                  <path d="M2 8L8 2M8 2H4M8 2v4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </a>
+              <span style={{ fontFamily: "var(--font-mono)", fontSize: "11px", color: "var(--text-tertiary)" }}>
+                Txns: <span style={{ color: "var(--text-secondary)", fontWeight: 600 }}>{result.details.txCount}</span>
+              </span>
             </div>
           )}
         </>

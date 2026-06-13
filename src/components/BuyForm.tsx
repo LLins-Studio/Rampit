@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { useAuth } from "@/lib/AuthContext";
 import WalletAgent from "@/components/WalletAgent";
+import { useAuth } from "@/lib/AuthContext";
+
 
 // ── Types ────────────────────────────────────────────────────────────────────
 type Token      = "USDT" | "USDC" | "CELO" | "SOL" | "XLM";
@@ -745,6 +746,7 @@ export default function BuyForm() {
                   </div>
                   <FieldError id="wallet-error" message={walletError} show={!!walletError} />
                   <WalletAgent address={wallet} network={network} />
+
                 </div>
 
                 {/* Saved wallets picker modal */}
